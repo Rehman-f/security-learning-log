@@ -1,0 +1,32 @@
+# Bandit: Level 1 → Level 2
+
+## Goal
+Log in as bandit1 and find the password needed to access level 2. 
+The password is stored in a file in the home directory, but the 
+filename is unusual, which makes the standard approach fail.
+
+## Approach
+Ran `ls` first and got no visible output, which was confusing. 
+Running `ls -la` (to show all files, including hidden/unusual ones) 
+revealed a single file literally named `-` (a dash).
+
+Trying `cat -` didn't work as expected, because in Linux a single 
+dash is often interpreted by commands as "read from standard input" 
+rather than as a literal filename. This meant `cat` was waiting for 
+input instead of reading the file.
+
+## Solution
+
+Using `./` before the filename forces the shell to treat it as a 
+file in the current directory, rather than interpreting the dash 
+as a command option.
+
+## What I learned
+Learned that filenames aren't always straightforward, and that 
+special characters (like a lone `-`) can be used deliberately to 
+break naive commands or scripts. This is actually relevant to real 
+security work — attackers or CTF challenges sometimes hide files 
+behind unusual names specifically to trip up automated tools or 
+people unfamiliar with shell behavior. Using `./filename` is a 
+reliable way to force a program to treat something as a literal 
+file path.
